@@ -12,14 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60af4acbcce049b7bb8d9c33704598a2, type: 3}
   m_Name: Chicken
   m_EditorClassIdentifier: 
-  itemName: 
+  itemName: Chicken
   itemDescription: 
   uiDisplay: {fileID: -1380830886, guid: c7ae008234daaa64e9a9ed7abcdf8284, type: 3}
   isStackable: 0
   itemType: 0
   buffs: []
   data:
-    id: -1
+    id: 0
     name: 
     buffs: []
     isStackable: 0

@@ -12,18 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6047969a417ceb45b1e1c715f7173bb, type: 3}
   m_Name: Shroom
   m_EditorClassIdentifier: 
-  itemName: 0
+  itemName: Shroom
   itemDescription: 
   uiDisplay: {fileID: -1530317112, guid: c7ae008234daaa64e9a9ed7abcdf8284, type: 3}
   isStackable: 0
   itemType: 0
   buffs: []
   data:
-    id: 0
+    id: 1
     name: 
-    buffs:
-    - attributes: 1
-      value: 0
-      minValue: 5
-      maxValue: 20
+    buffs: []
     isStackable: 0
