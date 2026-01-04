@@ -1,5 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 using inventory.ItemDataBase;
 using inventory.items;
 using UnityEngine;
@@ -11,6 +12,7 @@ namespace inventory.inventorySystem
     {
         public ItemDataBaseObject dataBase;
         public Inventory container;
+        public string savePath;
         
         public Action<bool> OnInventaryChanged;
 
@@ -78,12 +80,63 @@ namespace inventory.inventorySystem
                 }
             }
         }
+
+        [ContextMenu("Inventory Save")]
+        public void SaveInventory()
+        {
+            string saveData = JsonUtility.ToJson(this, true);
+            BinaryFormatter bf = new BinaryFormatter();
+            FileStream file = File.Create(string.Concat(Application.absoluteURL, savePath));
+            bf.Serialize(file, saveData);
+            file.Close();
+        }
+
+        [ContextMenu("Inventory Load")]
+        public void LoadInventory()
+        {
+            if (File.Exists(string.Concat(Application.absoluteURL, savePath)))
+            {
+                BinaryFormatter bf = new BinaryFormatter();
+                FileStream file = File.Open(string.Concat(Application.absoluteURL, savePath), FileMode.Open);
+                JsonUtility.FromJsonOverwrite(bf.Deserialize(file).ToString(), this);
+
+                file.Position = 0;
+                // Inventory newContainer = JsonUtility.FromJson<Inventory>(bf.Deserialize(file).ToString());
+                InventoryObject obj = (InventoryObject) bf.Deserialize(file);
+                // file.Close();
+                
+                
+                for (int i = 0; i < container.items.Length; i++)
+                {
+                    container.items[i].UpdateSlot(obj.container.items[i].item, obj.container.items[i].amount);
+                }
+                
+                
+                file.Close();
+                
+                OnInventaryChanged?.Invoke(true);
+            }
+        }
+        
+        [ContextMenu("Inventory Clear")]
+        public void ClearInventory()
+        {
+            container = new Inventory();
+        }
     }
 
     [Serializable]
     public class Inventory
     {
         public InventorySlot[] items = new InventorySlot[20];
+
+        public void Clear()
+        {
+            for (int i = 0; i < items.Length; i++)
+            {
+                items[i].UpdateSlot(new Item(), 0);
+            }
+        }
     }
 
     [Serializable]

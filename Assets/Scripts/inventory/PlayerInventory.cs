@@ -1,3 +1,4 @@
+using System;
 using inventory.inventorySystem;
 using inventory.items;
 using UnityEngine;
@@ -25,7 +26,24 @@ namespace inventory
                     Destroy(other.gameObject);
                 }
             }
+        }
+
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.F5))
+            {
+                _inventoryObject.SaveInventory();
+            }
             
+            if (Input.GetKeyDown(KeyCode.F6))
+            {
+                _inventoryObject.LoadInventory();
+            }
+        }
+
+        private void OnApplicationQuit()
+        {
+            _inventoryObject.container.Clear();
         }
     }
 }
